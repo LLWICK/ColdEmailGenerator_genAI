@@ -18,12 +18,12 @@ class Chain:
         self.llm = ChatGroq(
         model="compound-beta",
         temperature=0,
-        # other params...
+   
     )
         
     def extract_json_from_string(self,text):
 
-        # Regex to find text between ```json and ```, using re.DOTALL to match newlines
+      
         match = re.search(r'```json\n(.*?)```', text, re.DOTALL)
         if match:
             json_string = match.group(1).strip()
