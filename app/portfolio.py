@@ -1,10 +1,14 @@
 import pandas as pd
 import chromadb
 import uuid
+import os
 
+""" script_dir = os.path.dirname(__file__)
+csv_path = os.path.join(script_dir, 'resources', 'my_portfolio.csv') """
 
 class Portfolio:
-    def __init__(self, file_path="./resources/my_portfolio.csv"):
+    
+    def __init__(self, file_path=os.path.join(os.path.dirname(__file__), 'resources', 'my_portfolio.csv')):
         self.file_path = file_path
         self.data = pd.read_csv(file_path)
         self.chroma_client = chromadb.PersistentClient('vectorstore')
@@ -21,10 +25,6 @@ class Portfolio:
         return self.collection.query(query_texts=skills, n_results=2).get('metadatas', [])
     
 
-""" p1 = Portfolio()
-
-p1.load_portfolio() """
 
 
-df = pd.read_csv('./resources/my_portfolio.csv')
-print(df) 
+

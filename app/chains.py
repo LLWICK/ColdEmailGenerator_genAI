@@ -5,6 +5,8 @@ import re
 import json
 from langchain_core.prompts import PromptTemplate
 from langchain_community.document_loaders import WebBaseLoader
+import pandas as pd
+from portfolio import Portfolio
 
 load_dotenv()
 k = os.getenv("GROQ_API_KEY")
@@ -50,12 +52,76 @@ class Chain:
         """
 )
         
+        
 
         chain_extract = prompt_extract | self.llm 
         res = chain_extract.invoke(input={'page_data':content1})
         jason_res = self.extract_json_from_string(res.content)
-        print(jason_res)
+        return jason_res
+
+
+    def eliminate_think_tags(text):
+            
+            """
+            Removes the <think>...</think> block from a given string.
+
+            Args:
+                text (str): The input string containing the <think> tags.
+
+            Returns:
+                str: The string with the <think> block removed.
+            """
+            # The regex pattern matches the <think> tag, any characters (including newlines)
+            # in between, and the </think> tag. The re.DOTALL flag ensures that '.'
+            # matches newline characters.
+            pattern = re.compile(r'<think>.*?</think>', re.DOTALL)
+            
+            # Use re.sub() to replace the matched pattern with an empty string.
+            cleaned_text = pattern.sub('', text)
+            
+            # Strip any leading/trailing whitespace left after the removal.
+            return cleaned_text.strip()
+        
+    def generateEmail(self,job,links):
+                
+                
+                prompt_email = PromptTemplate.from_template(
+                """
+                ### JOB DESCRIPTION:
+                {job_description}
+                
+                ### INSTRUCTION:
+                You are Mohan, a business development executive at AtliQ. AtliQ is an AI & Software Consulting company dedicated to facilitating
+                the seamless integration of business processes through automated tools. 
+                Over our experience, we have empowered numerous enterprises with tailored solutions, fostering scalability, 
+                process optimization, cost reduction, and heightened overall efficiency. 
+                Your job is to write a cold email to the client regarding the job mentioned above describing the capability of AtliQ 
+                in fulfilling their needs.
+                Also add the most relevant ones from the following links to showcase Atliq's portfolio: {link_list}
+                Remember you are Mohan, BDE at AtliQ. 
+                Do not provide a preamble.
+                ### EMAIL (NO PREAMBLE):
+                
+                """
+                )
+
+                chain_email = prompt_email | self.llm
+                res = chain_email.invoke({"job_description": str(job), "link_list": links})
+                return res.content
 
 
 myObj = Chain()
-myObj.extractJobs("https://amazon.jobs/en/jobs/3055226/software-engineer-i")
+pf = Portfolio()
+
+j = myObj.extractJobs("https://amazon.jobs/en/jobs/3055226/software-engineer-i")
+
+
+
+k = pf.query_links(str(j))
+
+myObj.generateEmail(j,k)
+
+
+
+
+
