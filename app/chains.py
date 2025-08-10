@@ -110,16 +110,18 @@ class Chain:
                 return res.content
 
 
-myObj = Chain()
+""" myObj = Chain()
 pf = Portfolio()
 
-j = myObj.extractJobs("https://amazon.jobs/en/jobs/3055226/software-engineer-i")
+j = myObj.extractJobs("https://jobs.apple.com/en-us/details/200615383/software-engineer?team=SFTWR")
 
 
 
 k = pf.query_links(str(j))
 
-myObj.generateEmail(j,k)
+
+res = myObj.generateEmail(j,k)
+print(res) """
 
 
 

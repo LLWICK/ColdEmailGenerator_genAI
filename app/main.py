@@ -10,11 +10,12 @@ if submit_button:
     myObj = Chain()
     pf = Portfolio()
 
-    j = myObj.extractJobs(url_input)
+    j = myObj.extractJobs(str(url_input))
 
 
 
     k = pf.query_links(str(j))
 
     email = myObj.generateEmail(j,k)
+    print(k)
     st.code(email, language='markdown')
