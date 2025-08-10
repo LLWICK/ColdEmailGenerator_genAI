@@ -3,8 +3,7 @@ import chromadb
 import uuid
 import os
 
-""" script_dir = os.path.dirname(__file__)
-csv_path = os.path.join(script_dir, 'resources', 'my_portfolio.csv') """
+
 
 class Portfolio:
     
@@ -23,6 +22,9 @@ class Portfolio:
 
     def query_links(self, skills):
         return self.collection.query(query_texts=skills, n_results=2).get('metadatas', [])
+    
+    def get_all_documents(self):
+        return self.collection.get()
     
 
 

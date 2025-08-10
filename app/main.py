@@ -16,6 +16,10 @@ if submit_button:
 
     k = pf.query_links(str(j))
 
+
+
+    all = pf.get_all_documents()
+
     email = myObj.generateEmail(j,k)
-    print(k)
+
     st.code(email, language='markdown')

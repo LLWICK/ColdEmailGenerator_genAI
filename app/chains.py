@@ -16,7 +16,7 @@ class Chain:
     def __init__(self):
 
         self.llm = ChatGroq(
-        model="deepseek-r1-distill-llama-70b",
+        model="compound-beta",
         temperature=0,
         # other params...
     )
@@ -91,14 +91,14 @@ class Chain:
                 {job_description}
                 
                 ### INSTRUCTION:
-                You are Mohan, a business development executive at AtliQ. AtliQ is an AI & Software Consulting company dedicated to facilitating
+                You are Alex, a business development executive at AtliQ. AtliQ is an AI & Software Consulting company dedicated to facilitating
                 the seamless integration of business processes through automated tools. 
                 Over our experience, we have empowered numerous enterprises with tailored solutions, fostering scalability, 
                 process optimization, cost reduction, and heightened overall efficiency. 
                 Your job is to write a cold email to the client regarding the job mentioned above describing the capability of AtliQ 
                 in fulfilling their needs.
                 Also add the most relevant ones from the following links to showcase Atliq's portfolio: {link_list}
-                Remember you are Mohan, BDE at AtliQ. 
+                Remember you are Alex, BDE at AtliQ. 
                 Do not provide a preamble.
                 ### EMAIL (NO PREAMBLE):
                 
@@ -110,18 +110,7 @@ class Chain:
                 return res.content
 
 
-""" myObj = Chain()
-pf = Portfolio()
 
-j = myObj.extractJobs("https://jobs.apple.com/en-us/details/200615383/software-engineer?team=SFTWR")
-
-
-
-k = pf.query_links(str(j))
-
-
-res = myObj.generateEmail(j,k)
-print(res) """
 
 
 
